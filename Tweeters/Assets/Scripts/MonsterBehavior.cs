@@ -11,17 +11,31 @@ public class MonsterBehavior : MonoBehaviour
     public SpriteRenderer _sr;
     bool _hasDied;
 
-    void Start()
-    {
-        _sr = GetComponent<SpriteRenderer>();
-    }
-
     void OnCollisionEnter2D(Collision2D collisionInfo)
     {
         if (CollisionDeath(collisionInfo))
         {
             StartCoroutine(die());
         }
+    }
+
+    private IEnumerator Start()
+    {
+        while (_hasDied == false)
+        {
+            float delay = UnityEngine.Random.Range(5, 30);
+            yield return new WaitForSeconds(delay);
+            if (_hasDied == false)
+            {
+                GetComponent<AudioSource>().Play();
+
+            }
+        }
+    }
+
+    void OnMouseDown()
+    {
+        GetComponent<AudioSource>().Play();
     }
 
     private bool CollisionDeath(Collision2D collisionInfo)
