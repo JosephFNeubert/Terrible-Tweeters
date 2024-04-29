@@ -9,6 +9,7 @@ public class BirdBehavior : MonoBehaviour
     public Rigidbody2D _rb;
     public SpriteRenderer _sr;
     Vector2 _startPosition;
+    public bool IsDragging { get; private set; }
 
     // Start is called before the first frame update
     void Start()
@@ -18,16 +19,11 @@ public class BirdBehavior : MonoBehaviour
         _rb.isKinematic = true;
         _sr = GetComponent<SpriteRenderer>();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     
     void OnMouseDown()
     {
         _sr.color = Color.red;
+        IsDragging = true;
     }
 
     void OnMouseUp()
@@ -38,6 +34,8 @@ public class BirdBehavior : MonoBehaviour
         _rb.isKinematic = false;
         _rb.AddForce(direction * _launchForce);
         _sr.color = Color.white;
+
+        IsDragging = false;
     }
 
     void OnMouseDrag()
