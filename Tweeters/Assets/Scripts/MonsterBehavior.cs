@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[SelectionBase]
+
 public class MonsterBehavior : MonoBehaviour
 {
     [SerializeField] Sprite _deadSprite;
@@ -18,7 +20,7 @@ public class MonsterBehavior : MonoBehaviour
     {
         if (CollisionDeath(collisionInfo))
         {
-            die();
+            StartCoroutine(die());
         }
     }
 
@@ -40,11 +42,12 @@ public class MonsterBehavior : MonoBehaviour
         return false;
     }
 
-    private void die()
+    private IEnumerator die()
     {
         _hasDied = true;
         _sr.sprite = _deadSprite;
         _particleSystem.Play();
-        //gameObject.SetActive(false);
+        yield return new WaitForSeconds(1);
+        gameObject.SetActive(false);
     }
 }
